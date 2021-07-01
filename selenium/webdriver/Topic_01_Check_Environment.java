@@ -40,8 +40,8 @@ public class Topic_01_Check_Environment {
 		String loginPageTitle = driver.getTitle();
 		Assert.assertEquals(loginPageTitle, "Guru99 Bank Home Page");
 	}
-	//khóa
-
+	//khóa hoc 
+	
 	
 	@Test 
 	public void TC_03_LoginFormDisplayed() {
