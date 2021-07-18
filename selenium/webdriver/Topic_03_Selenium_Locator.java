@@ -34,6 +34,7 @@ public class Topic_03_Selenium_Locator {
 		driver.manage().window().maximize();
 		// Mở application lên (AUT/SUT)
 		driver.get("http://live.demoguru99.com/index.php/customer/account/login/");
+	
 	}
 
 	public void TC_01_FindElement() {
