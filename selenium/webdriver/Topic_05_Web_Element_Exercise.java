@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -71,14 +72,33 @@ public class Topic_05_Web_Element_Exercise {
 		//driver.getTitle()
 	}
 	
-	//public void TC_02
+	@Test
+	public void TC_06_Login_Valid() {
+		
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+		
+		driver.findElement(By.id("email")).sendKeys(emailAddress);
+		driver.findElement(By.id("pass")).sendKeys(password);
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
+			
+		//Verify 
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class=\"page-title\"]/h1")).getText(), "MY DASHBOARD");
+		
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//p//strong")).getText(), "Hello, " + fullName + "!");
+		
+		String contactInformation = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+		System.out.println(contactInformation);
+		Assert.assertTrue(contactInformation.contains(fullName));
+		Assert.assertTrue(contactInformation.contains(emailAddress));
+		
+	}
 	
 	public String generateEmail() {
 		Random rand = new Random();
 		return rand.nextInt(9999) + "@mail.vn";
 	}
 	
-	//AfterClass
+	@AfterClass
 	public void AfterClass() {
 		driver.quit();
 	}

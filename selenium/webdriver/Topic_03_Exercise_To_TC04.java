@@ -22,7 +22,7 @@ public class Topic_03_Exercise_To_TC04 {
 	}
 
 	@Test
-	public void TC_01_Login_With_Emply_Email_Pass() {
+	public void TC_01_Login_With_Empty_Email_Pass() {
 		// click My account
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 
