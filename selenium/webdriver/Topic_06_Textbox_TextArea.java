@@ -1,8 +1,5 @@
 package webdriver;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +32,7 @@ public class Topic_06_Textbox_TextArea {
 	By passTextBox = By.name("password");
 
 	// DATA TEST (NEW CUSTOMER)
-	String name, dob, add, city, state, pin, phone;
+	String name, dob, dobCheck, add, city, state, pin, phone;
 
 	// DECLARE DATA TEST (EDIT CUSTOMER)
 	String editAdd, editCity, editState, editPin, editPhone, editEmail;
@@ -53,8 +50,9 @@ public class Topic_06_Textbox_TextArea {
 		email = "John" + generateEmail();
 		name = "John Lips";
 		dob = "01/02/1986";
+		dobCheck = "1986-02-01";
 		add = "23 An Ton Texas";
-		city = "California";
+		city = "Ho Chi Minh";
 		state = "Hawai";
 		pin = "987889";
 		phone = "0987609876";
@@ -122,8 +120,8 @@ public class Topic_06_Textbox_TextArea {
 		// verify cac thong tin da input
 		Assert.assertEquals(
 				driver.findElement(By.xpath("//td[text()='Customer Name']/following-sibling::td")).getText(), name);
-		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Birthday']/following-sibling::td")).getText(),
-				dob);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Birthdate']/following-sibling::td")).getText(),
+				dobCheck);
 		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td")).getText(),
 				add);
 		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='City']/following-sibling::td")).getText(), city);
@@ -140,7 +138,7 @@ public class Topic_06_Textbox_TextArea {
 
 	@Test
 	public void TC_04_Update_User() throws InterruptedException {
-		driver.findElement(By.xpath("//a[text()='Edit Customer'))")).click();
+		driver.findElement(By.xpath("//a[text()='Edit Customer']")).click();
 		Thread.sleep(3000);
 
 		driver.findElement(By.name("cusid")).sendKeys(customerID);
@@ -153,7 +151,7 @@ public class Topic_06_Textbox_TextArea {
 
 		// VERIFY VALUES
 		Assert.assertEquals(driver.findElement(nameTextBox).getAttribute("value"), name);
-		Assert.assertEquals(driver.findElement(dobTextBox).getAttribute("value"), dob);
+		Assert.assertEquals(driver.findElement(dobTextBox).getAttribute("value"), dobCheck);
 		Assert.assertEquals(driver.findElement(addTextArea).getText(), add);
 		Assert.assertEquals(driver.findElement(cityTextBox).getAttribute("value"), city);
 		Assert.assertEquals(driver.findElement(stateTextBox).getAttribute("value"), state);
@@ -179,15 +177,16 @@ public class Topic_06_Textbox_TextArea {
 
 		driver.findElement(emailTextBox).clear();
 		driver.findElement(emailTextBox).sendKeys(editEmail);
-
+		
+		//Submit changes
 		driver.findElement(By.name("sub")).click();
 		Assert.assertEquals(driver.findElement(By.cssSelector(".heading3")).getText(),
-				"Customer details updated successfully");
+				"Customer details updated Successfully!!!");
 
-		// VERIFY VALUES
+		// VERIFY VALUES - UNCHANGED
 		Assert.assertEquals(driver.findElement(nameTextBox).getAttribute("value"), name);
-		Assert.assertEquals(driver.findElement(dobTextBox).getAttribute("value"), dob);
-
+		Assert.assertEquals(driver.findElement(dobTextBox).getAttribute("value"), dobCheck);
+		//VERIFY VALUES - HANGED
 		Assert.assertEquals(driver.findElement(addTextArea).getText(), editAdd);
 		Assert.assertEquals(driver.findElement(cityTextBox).getAttribute("value"), editCity);
 		Assert.assertEquals(driver.findElement(stateTextBox).getAttribute("value"), editState);
@@ -197,7 +196,7 @@ public class Topic_06_Textbox_TextArea {
 
 	}
 
-	// @AfterClass
+	@AfterClass
 	public void afterClass() {
 		driver.quit();
 	}
