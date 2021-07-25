@@ -37,6 +37,9 @@ public class Topic_06_Textbox_TextArea {
 	// DATA TEST (NEW CUSTOMER)
 	String name, dob, add, city, state, pin, phone;
 
+	// DECLARE DATA TEST (EDIT CUSTOMER)
+	String editAdd, editCity, editState, editPin, editPhone, editEmail;
+
 	// STRINGS
 	String email, loginPageUrl, userID, password, customerID;
 
@@ -45,6 +48,7 @@ public class Topic_06_Textbox_TextArea {
 		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 		driver = new ChromeDriver();
 
+		// DATA NEW CUSTOMER
 		loginPageUrl = "http://demo.guru99.com/v4";
 		email = "John" + generateEmail();
 		name = "John Lips";
@@ -54,6 +58,14 @@ public class Topic_06_Textbox_TextArea {
 		state = "Hawai";
 		pin = "987889";
 		phone = "0987609876";
+
+		// DATA EDIT CUSTOMER
+		editAdd = "42 ngo tat to";
+		editCity = "da nang";
+		editState = "vietnam";
+		editPin = "333212";
+		editPhone = "0988666555";
+		editEmail = "James" + generateEmail();
 
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
@@ -73,7 +85,7 @@ public class Topic_06_Textbox_TextArea {
 	}
 
 	@Test
-	public void TC_02_Login() {
+	public void TC_02_Login() throws InterruptedException {
 		driver.get(loginPageUrl);
 		By userIDField = By.name("uid");
 		sendKeyToElement(userIDField, userID);
@@ -82,7 +94,8 @@ public class Topic_06_Textbox_TextArea {
 		sendKeyToElement(passwordField, password);
 
 		clickElement(submitButton);
-		Assert.assertEquals(driver.findElement(By.cssSelector("marquee.heading3")),
+
+		Assert.assertEquals(driver.findElement(By.cssSelector("marquee.heading3")).getText(),
 				"Welcome To Manager's Page of Guru99 Bank");
 
 	}
@@ -147,9 +160,40 @@ public class Topic_06_Textbox_TextArea {
 		Assert.assertEquals(driver.findElement(pinTextBox).getAttribute("value"), pin);
 		Assert.assertEquals(driver.findElement(phoneTextBox).getAttribute("value"), phone);
 		Assert.assertEquals(driver.findElement(emailTextBox).getAttribute("value"), email);
-		
-		//EDIT CUSTOMER
-		
+
+		// EDIT CUSTOMER
+		driver.findElement(addTextArea).clear();
+		driver.findElement(addTextArea).sendKeys(editAdd);
+
+		driver.findElement(cityTextBox).clear();
+		driver.findElement(cityTextBox).sendKeys(editCity);
+
+		driver.findElement(stateTextBox).clear();
+		driver.findElement(stateTextBox).sendKeys(editState);
+
+		driver.findElement(pinTextBox).clear();
+		driver.findElement(pinTextBox).sendKeys(editPin);
+
+		driver.findElement(phoneTextBox).clear();
+		driver.findElement(phoneTextBox).sendKeys(editPhone);
+
+		driver.findElement(emailTextBox).clear();
+		driver.findElement(emailTextBox).sendKeys(editEmail);
+
+		driver.findElement(By.name("sub")).click();
+		Assert.assertEquals(driver.findElement(By.cssSelector(".heading3")).getText(),
+				"Customer details updated successfully");
+
+		// VERIFY VALUES
+		Assert.assertEquals(driver.findElement(nameTextBox).getAttribute("value"), name);
+		Assert.assertEquals(driver.findElement(dobTextBox).getAttribute("value"), dob);
+
+		Assert.assertEquals(driver.findElement(addTextArea).getText(), editAdd);
+		Assert.assertEquals(driver.findElement(cityTextBox).getAttribute("value"), editCity);
+		Assert.assertEquals(driver.findElement(stateTextBox).getAttribute("value"), editState);
+		Assert.assertEquals(driver.findElement(pinTextBox).getAttribute("value"), editPin);
+		Assert.assertEquals(driver.findElement(phoneTextBox).getAttribute("value"), editPhone);
+		Assert.assertEquals(driver.findElement(emailTextBox).getAttribute("value"), editEmail);
 
 	}
 
