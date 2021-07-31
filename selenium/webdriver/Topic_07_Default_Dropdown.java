@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,9 +39,9 @@ public class Topic_07_Default_Dropdown {
 		lastName = "FC";
 		emailAddress = "Ricky" + generateEmail();
 		companyName = "VN Trial and Errors";
-		day = "10";
-		month = "August";
-		year = "1986";
+		day = "1";
+		month = "May";
+		year = "1980";
 	}
 
 	@Test
@@ -86,18 +87,18 @@ public class Topic_07_Default_Dropdown {
 
 		select = new Select(driver.findElement(By.name("DateOfBirthDay")));
 		Assert.assertEquals(select.getFirstSelectedOption().getText(), day);
+		Assert.assertEquals(select.getOptions().size(), 32);
 
 		select = new Select(driver.findElement(By.name("DateOfBirthMonth")));
 		Assert.assertEquals(select.getFirstSelectedOption().getText(), month);
+		Assert.assertEquals(select.getOptions().size(), 13);
 
 		select = new Select(driver.findElement(By.name("DateOfBirthYear")));
 		Assert.assertEquals(select.getFirstSelectedOption().getText(), year);
+		Assert.assertEquals(select.getOptions().size(), 112);
 
-//		Verify so luong options
-//		Assert.assertEquals(select.getOptions().size(), 32);
-//		
 //		//Verify dropdown nay khong chon nhieu items duoc
-//		Assert.assertFalse(select.isMultiple());
+		Assert.assertFalse(select.isMultiple());
 //		
 
 	}
@@ -115,6 +116,18 @@ public class Topic_07_Default_Dropdown {
 		System.out.println(item.getText());
 		}
 		
+	}
+	
+	@Test
+	public void TC_03() {
+		driver.get("https://demo.nopcommerce.com/register");
+		
+		
+	}
+	
+	@AfterTest	
+	public void afterTest() {
+		driver.quit();
 	}
 	
 	public void clickByJS (By by) {
