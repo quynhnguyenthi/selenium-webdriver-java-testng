@@ -15,21 +15,20 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 public class Topic_07_Default_Dropdown {
 	WebDriver driver;
 	Random rand;
 	String projectPath = System.getProperty("user.dir");
 	Select select;
 	String firstName, lastName, emailAddress, companyName, day, month, year;
-	
+
 	JavascriptExecutor jsExecutor;
 
 	@BeforeClass
 	public void beforeClass() {
 		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
 		driver = new ChromeDriver();
-		
+
 		jsExecutor = (JavascriptExecutor) driver;
 
 		driver.manage().window().maximize();
@@ -71,7 +70,7 @@ public class Topic_07_Default_Dropdown {
 		driver.findElement(By.id("ConfirmPassword")).sendKeys("123456");
 
 		clickByJS(By.id("register-button"));
-		
+
 //		driver.findElement(By.id("register-button")).click();
 
 		// Verify create successfully
@@ -99,7 +98,6 @@ public class Topic_07_Default_Dropdown {
 
 //		//Verify dropdown nay khong chon nhieu items duoc
 		Assert.assertFalse(select.isMultiple());
-//		
 
 	}
 
@@ -109,36 +107,33 @@ public class Topic_07_Default_Dropdown {
 		driver.get("https://demo.nopcommerce.com/");
 		driver.findElement(By.className("ico-register")).click();
 		select = new Select(driver.findElement(By.name("DateOfBirthMonth")));
-		
+
 		List<WebElement> allItems = select.getOptions();
-		
-		for (WebElement item: allItems) {
-		System.out.println(item.getText());
+
+		for (WebElement item : allItems) {
+			System.out.println(item.getText());
 		}
-		
+
 	}
-	
+
 	@Test
 	public void TC_03() {
 		driver.get("https://demo.nopcommerce.com/register");
-		
-		
+
 	}
-	
-	@AfterTest	
+
+	@AfterTest
 	public void afterTest() {
 		driver.quit();
 	}
-	
-	public void clickByJS (By by) {
+
+	public void clickByJS(By by) {
 		jsExecutor.executeScript("arguments[0].click();", driver.findElement(by));
 	}
-	
+
 	public String generateEmail() {
 		rand = new Random();
 		return rand.nextInt(9999) + "@mail.vn";
 	}
-	
-	
 
 }
