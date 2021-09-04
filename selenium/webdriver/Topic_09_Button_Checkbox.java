@@ -1,9 +1,12 @@
 package webdriver;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -20,8 +23,6 @@ public class Topic_09_Button_Checkbox {
 	WebDriver driver;
 	Random rand;
 	String projectPath = System.getProperty("user.dir");
-	Select select;
-	String buttonDangNhap;
 
 	JavascriptExecutor jsExecutor;
 
@@ -79,7 +80,7 @@ public class Topic_09_Button_Checkbox {
 				"Thông tin này không thể để trống");
 	}
 
-	@Test
+//	@Test
 	public void TC_02_Default_Checkbox_RadioButton() throws InterruptedException {
 		driver.get("http://demos.telerik.com/kendo-ui/styling/checkboxes");
 		sleepInSecond(3);
@@ -88,11 +89,13 @@ public class Topic_09_Button_Checkbox {
 		sleepInSecond(3);
 //		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]")));
 		driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]/parent::li/input")).click();
-		Assert.assertTrue(driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]/parent::li/input")).isSelected());
+		Assert.assertTrue(
+				driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]/parent::li/input")).isSelected());
 //		
 		driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]")).click();
-		Assert.assertFalse(driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]/parent::li/input")).isSelected());
-		
+		Assert.assertFalse(
+				driver.findElement(By.xpath("//label[contains(text(), 'Dual-zone')]/parent::li/input")).isSelected());
+
 		// Radio handling
 		driver.get("http://demos.telerik.com/kendo-ui/styling/radios");
 //		clickAcceptCookies();
@@ -102,8 +105,49 @@ public class Topic_09_Button_Checkbox {
 	}
 
 //	@Test
-	public void TC_03() {
+	public void TC_03_RadioButton() throws InterruptedException {
+		driver.get("https://material.angular.io/components/radio/examples");
+////		driver.findElement(By.xpath("//input[@value='Summer']/preceding-sibling::span[@class='mat-radio-inner-circle']")).click();
+////		clickRadioButton(By.xpath("//input[@value='Summer']/preceding-sibling::span[@class='mat-radio-inner-circle']"));
+//		
+		clickByJS(By.xpath("//input[@value='Summer']"));
+		Assert.assertTrue(driver.findElement(By.xpath("//input[@value='Summer']")).isSelected());
+//		
+		driver.get("https://material.angular.io/components/checkbox/examples");
+		By checked = By.xpath("//span[text()='Checked']/preceding-sibling::span/input");
+		clickByJS(checked);
+		Assert.assertTrue(driver.findElement(checked).isSelected());
 
+		By indeterminate = By.xpath("//span[text()='Indeterminate']/preceding-sibling::span/input");
+		clickByJS(indeterminate);
+		Assert.assertTrue(driver.findElement(indeterminate).isSelected());
+		sleepInSecond(10);
+
+		// Uncheck checkbox
+		clickByJS(indeterminate);
+		Assert.assertFalse(driver.findElement(indeterminate).isSelected());
+	}
+
+//	@Test
+	public void TC_04_Custome_Checkbox_RadioButton() {
+		driver.get(
+				"https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+		WebElement canThoNotChecked = driver
+				.findElement(By.xpath("//div[@data-value='Cần Thơ' and @aria-checked='false']"));
+		Assert.assertTrue(canThoNotChecked.isDisplayed());
+		canThoNotChecked.click();
+		Assert.assertTrue(
+				driver.findElement(By.xpath("//div[@data-value='Cần Thơ' and @aria-checked='true']")).isDisplayed());
+		System.out.println("Elemenent is checked:" + driver.findElement(By.xpath("//div[@data-value='Cần Thơ']")).getAttribute("aria-checked"));
+		
+		//Check checkbox Quang Ngai
+		WebElement quangNgai = driver.findElement(By.xpath("//div[@aria-label='Quảng Ngãi']"));
+		Assert.assertEquals(quangNgai.getAttribute("aria-checked"), "false");
+//		Assert.assertTrue(driver.findElement(By.xpath("//div[@aria-label='Quảng Ngãi' and @aria-checked='false']")).isDisplayed());
+//		driver.findElement(By.xpath("//div[@aria-label='Quảng Ngãi' and @aria-checked='false']")).click();
+//		Assert.assertTrue(driver.findElement(By.xpath("//div[@aria-label='Quảng Ngãi' and @aria-checked='true']")).isDisplayed());
+		quangNgai.click();
+		Assert.assertEquals(quangNgai.getAttribute("aria-checked"), "true");
 	}
 
 	@AfterTest
