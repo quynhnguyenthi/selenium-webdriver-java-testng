@@ -42,12 +42,9 @@ public class Topic_13_Frame_IFrame {
 		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(3000, TimeUnit.SECONDS);
-		fullName = "batMan";
-		username = "admin";
-		password = "admin";
 		action = new Actions(driver);
 	}
-	@Test
+//	@Test
 	public void TC_01_Frame() throws InterruptedException {
 		driver.get("https://kyna.vn/");
 		List<WebElement> popup = driver.findElements(By.xpath("//div[@class='fancybox-skin']"));
@@ -73,15 +70,29 @@ public class Topic_13_Frame_IFrame {
 		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//textarea[@name='message']")));
 		driver.findElement(By.xpath("//textarea[@name='message']")).sendKeys(message);
 		driver.findElement(By.cssSelector("input.submit")).click();
-		
+		sleep(2);
 		Assert.assertEquals(driver.findElement(By.cssSelector("div.scrollable_inner label.logged_in_name")).getText(), name);
 		Assert.assertEquals(driver.findElement(By.cssSelector("div.scrollable_inner label.logged_in_phone")).getText(), phone);
-//		Assert.assertEquals(driver.findElement(By.xpath("//textarea[@name='message']")), message);
+//		Assert.assertEquals(driver.findElement(By.cssSelector("textarea.input_textarea ")), message);
+		driver.switchTo().defaultContent();
+		WebElement searchBar = driver.findElement(By.xpath("//input[@id='live-search-bar']"));
+		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", searchBar);
+		searchBar.sendKeys("Excel");
+		searchBar.sendKeys(Keys.ENTER);
+		List<WebElement> course = driver.findElements(By.xpath("//div[@class='content']/h4"));
+		Assert.assertEquals(course.size(), 10);
+		for(WebElement courseEach: course) {
+			Assert.assertTrue(courseEach.getText().toLowerCase().contains("excel"));
+			System.out.println(courseEach.getText());
+		}
 	}
 		
-//	@Test
-	public void TC_04_Random_Popup() {
-		driver.get("");
+	@Test
+	public void TC_02_Frame_IFrame() {
+		driver.get("https://netbanking.hdfcbank.com/netbanking/");
+		driver.switchTo().frame("login_page");
+		driver.findElement(By.cssSelector("input[name='fldLoginUserId']")).sendKeys("automationfc");
+		driver.findElement(By.cssSelector("a[class*='login-btn']")).click();
 	}
 
 //	@Test
@@ -109,7 +120,7 @@ public class Topic_13_Frame_IFrame {
 		driver.get("");
 	}
 	
-//	@AfterTest
+	@AfterTest
 	public void afterTest() {
 		driver.quit();
 	}
