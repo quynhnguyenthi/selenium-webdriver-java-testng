@@ -194,6 +194,7 @@ public class Topic_13_Frame_IFrame_Tabs {
 		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='success-msg']//span[text()='The comparison list was cleared.']")).isDisplayed());
 	
 	}
+	
 	@AfterTest
 	public void afterTest() {
 		driver.quit();
