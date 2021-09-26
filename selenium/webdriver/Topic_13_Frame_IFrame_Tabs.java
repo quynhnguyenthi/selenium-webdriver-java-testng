@@ -179,7 +179,6 @@ public class Topic_13_Frame_IFrame_Tabs {
 		driver.findElement(By.xpath(
 				"//a[text()='Samsung Galaxy']//parent::h2[@class='product-name']//following-sibling::div[@class='actions']//a[@class='link-compare']"))
 				.click();
-		sleep(1);
 		driver.findElement(By.xpath(
 				"//a[text()='Sony Xperia']//parent::h2[@class='product-name']//following-sibling::div[@class='actions']//a[@class='link-compare']"))
 				.click();
@@ -193,7 +192,7 @@ public class Topic_13_Frame_IFrame_Tabs {
 		alert = driver.switchTo().alert();
 		alert.accept();
 		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='success-msg']//span[text()='The comparison list was cleared.']")).isDisplayed());
-		
+	
 	}
 	@AfterTest
 	public void afterTest() {
